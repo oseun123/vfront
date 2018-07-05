@@ -15,7 +15,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse " id="navbar-collapse">
         <ul class="nav navbar-nav  pull-right">
-          <li>
+        <li v-if="checktype=='1'|| checkLogin==undefined " >
             <router-link to="/" >Home </router-link>  
 
            
@@ -88,7 +88,9 @@ export default {
     logout(){
       services.removeToken();
       services.removeType();
-      this.$router.push('/logout')
+      services.removeStudyMaterial();
+      services.removeQuizQuestion();
+      this.$router.push('/login')
     }
   },
 

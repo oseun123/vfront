@@ -11,7 +11,22 @@ import Uploadimages from './components/admin/Uploadimages.vue'
 import services from './services';
 export default [
     {
-        path: '/', component: Home
+        path: '/', component: Home, beforeEnter: (to, from, next) => {
+            try {
+
+                if (services.isloggedIn() && parseInt(services.isAdmin()) == 1) {
+                    next();
+                } else if (services.isloggedIn() && parseInt(services.isAdmin()) == 0) {
+                    next('/quiz');
+                } else {
+
+                    next();
+                }
+            } catch (err) {
+
+                next('/login');
+            }
+        }
     },
     {
         path: '/upload-questions', component: Uploadcsv, beforeEnter: (to, from, next) => {
@@ -130,15 +145,17 @@ export default [
             try {
             
                 if (services.isloggedIn() && parseInt(services.isAdmin()) == 1) {
+                    // alert('ok1');
                     next();
                 } else if (services.isloggedIn() && parseInt(services.isAdmin()) == 0) {
+                    // alert('ok2');
                     next('/quiz');
                 } else {
-                    
+                    alert(services.isAdmin());
                     next('/login');
                 }
             } catch (err) {
-           
+                // alert('ok4');
                 next('/login');
             }
         }

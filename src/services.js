@@ -84,6 +84,12 @@ export default {
     removeType: function () {
         return sessionStorage.removeItem('type');
     },
+    removeStudyMaterial: function () {
+        return sessionStorage.removeItem('material');
+    },
+    removeQuizQuestion: function () {
+        return sessionStorage.removeItem('quiz');
+    },
     isValid: function () {
         const token = this.get();
         if (token) {
@@ -185,8 +191,78 @@ export default {
         const $hashMaterial = sessionStorage.getItem('material');
         return JSON.parse(this.decrypt($hashMaterial, this.key));
       
-    }
+    },
+    getquizQuestions: function () {
+        return Vue.http.get(`${this.baseurl}/quiz`);
 
+    },
+    quizQuestionsCached1:false,
+
+    setquizQuestionsCached: function (quiz) {
+        const $quiz = this.encrypt(JSON.stringify(quiz), this.key);
+        sessionStorage.setItem('quiz', $quiz);
+    },
+    getquizQuestionsCached: function () {
+        const $hashQuized = sessionStorage.getItem('quiz');
+        return JSON.parse(this.decrypt($hashQuized, this.key));
+
+    },
+
+    setquiznumQuestionsAnsweredCached: function (type) {
+
+        let $type = this.encrypt(type.toString(), this.key);
+        sessionStorage.setItem('num', $type);
+    },
+    setquizactiveQuestionsCached: function (type) {
+
+        let $type = this.encrypt(type.toString(), this.key);
+        sessionStorage.setItem('qu', $type);
+    },
+    setresultCached: function (type) {
+
+        let $type = this.encrypt(type.toString(), this.key);
+        sessionStorage.setItem('fa', $type);
+    },
+    setfinalizeCached: function (type) {
+
+        let $type = this.encrypt(type.toString(), this.key);
+        sessionStorage.setItem('ta', $type);
+    },
+    getresultCached: function () {
+        let $hashtype = sessionStorage.getItem('fa');
+        if ($hashtype) {
+            return this.decrypt($hashtype, this.key);
+
+        }
+        return false;
+    },
+    getfinalizeCached: function () {
+        let $hashtype = sessionStorage.getItem('ta');
+        if ($hashtype) {
+            return this.decrypt($hashtype, this.key);
+
+        }
+        return false;
+    },
+    getquiznumQuestionsAnsweredCached: function () {
+        let $hashtype = sessionStorage.getItem('num');
+        if ($hashtype) {
+            return this.decrypt($hashtype, this.key);
+
+        }
+        return false;
+    },
+    getquizactiveQuestionsCached: function () {
+        let $hashtype = sessionStorage.getItem('qu');
+        if ($hashtype) {
+            return this.decrypt($hashtype, this.key);
+
+        }
+        return false;
+    },
+   
+
+     
 
 
 
